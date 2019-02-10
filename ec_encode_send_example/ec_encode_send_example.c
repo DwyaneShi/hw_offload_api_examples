@@ -21,6 +21,7 @@
 
 /* poll CQ timeout in millisec (2 seconds) */
 #define MAX_POLL_CQ_TIMEOUT 2000
+#define BENCHMARK_DUMP
 
 /* structure of test parameters */
 struct config_t {
@@ -1026,8 +1027,8 @@ receive_file(struct resources *res, const char *file_suffix)
     memset(fds, 0, sizeof(fds));
     for (i = 0; i < config.k + config.m; ++i) {
         char fname[1024];
-        snprintf(fname, sizeof(fname), "%s%02d%s",
-                (i < config.k) ? "data" : "code", i, file_suffix);
+        snprintf(fname, sizeof(fname), "%s%02d_%d%s",
+                (i < config.k) ? "data" : "code", i, config.block_size, file_suffix);
         fds[i] = fopen(fname, "w");
         if (!fds[i]) {
             rc = 1;
